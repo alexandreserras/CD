@@ -1,0 +1,34 @@
+O prótocolo utilizado neste trabalho para serem efetuadas as trocas de mensagens entre os clientes e produtores com o broker, ou vice-versa foi o seguinte:
+No envio das mensagens  utilizamos sempre 2 bytes iniciais em big endian , e eram enviados antes da mensagem que serviam para anunciar qual o tamanho que a mensagem
+que ia ser recebida tinha
+Nota sobre o txt, todos as "amostras" vão estar em json sendo depois
+adaptado para os outros formatos
+
+Mensagem de registo:
+    msg = {"command": "register", "topic":<topico>, "type": <type>, "method": <method>}
+  
+Salientar que a mensagem de registo, é a primeira que mensagem que circula de um cliente ou produtor para o broker, e esta vai servir 
+para o cliente/produtor informar o broker, broker que formata vai utilizar para comunicar e o type que ele é, ou seja, cliente/produtor logo
+esta mensagem é sempre enviada em json.
+
+Mensagem de Subscrição:
+    msg={"command": "subscribe", "topic":<topico>}
+Usado pelo cliente  para subscrever um tópico do broker
+
+Mensagem de Cancelamento de subscrição:
+    msg={"command": "unsubscribe", "topic":<topico> }
+Usado pelo cliente  para parar de subscrever  um tópico do broker
+
+
+Mensagem de publicação:
+    msg={"command":"message", "topic": <topico>, "msg" :<message>}
+Feito pelo produtor para enviar uma messagem para o broker
+
+
+
+Mensagem de Listagem de todos os topicos:
+    msg={"command": "list_all"}
+Enviado pelo cliente/produtor para o broker para pedir todos os tópicos que este possui.
+    Resposta -> msg={"command": "list_all", "topics": [<lista de topicos>]}
+Resposta dada pelo broker ao cliente que pediu a listagem de todos os tópicos
+
